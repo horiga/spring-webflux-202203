@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+
+  consul-server:
+    image: hashicorp/consul:1.10.0
+    container_name: consul-server
+    restart: always
+    volumes:
+     - ./consul/server.json:/consul/config/server.json:ro
+    networks:
+      - consul
+    ports:
+      - "8500:8500"
+      - "8600:8600/tcp"
+      - "8600:8600/udp"
+    command: "agent"
+
+  mysql:
+    image: mysql:8.0.19
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test_user
+      MYSQL_TCP_PORT: 3306
+      TZ: Asia/Tokyo
+    ports:
+      - 3306:3306
+    hostname: mysqldocker
+    volumes:
+      - ./mysql/ddl:/docker-entrypoint-initdb.d
+      - ./mysql/conf:/etc/mysql
+      - ./mysql/mysql-files:/var/lib/mysql-files
+    tty: true
+    stdin_open: true
+
+  redis-cluster:
+    image: grokzen/redis-cluster:4.0.12
+    environment:
+      IP: 0.0.0.0
+      SENTINEL: 'false'
+      STANDALONE: 'false'
+    hostname: redisdocker
+    ports:
+      - 17000:7000
+      - 17001:7001
+      - 17002:7002
+      - 17003:7003
+      - 17004:7004
+      - 17005:7005
+    tty: true
+    stdin_open: true
+    privileged: true
+
+networks:
+  consul:
+    driver: bridge
+

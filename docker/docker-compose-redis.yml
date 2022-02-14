@@ -1,0 +1,19 @@
+version: '3'
+services:
+  redis-cluster:
+    image: grokzen/redis-cluster:4.0.12
+    environment:
+      IP: 0.0.0.0
+      SENTINEL: 'false'
+      STANDALONE: 'false'
+    hostname: redisdocker
+    ports:
+      - 17000:7000
+      - 17001:7001
+      - 17002:7002
+      - 17003:7003
+      - 17004:7004
+      - 17005:7005
+    tty: true
+    stdin_open: true
+    privileged: true

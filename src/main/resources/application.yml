@@ -1,0 +1,35 @@
+spring.application.name: spring-webflux
+
+server.port: 8080
+management:
+  server.port: 18080
+  endpoints.enabled-by-default: false
+  endpoints.web.base-path: /management
+  endpoints.web.exposure.include: health,prometheus
+  metrics:
+    distribution.percentiles-histogram.http.server.requests: true
+    tags:
+      application: ${spring.application.name}
+      application-type: webflux
+  endpoint:
+    health.enabled: true
+    prometheus.enabled: true
+
+# consul
+spring.cloud.consul:
+  host: 127.0.0.1
+  port: 8500
+  discovery:
+    tags:
+      - webflux
+      - kotlin
+      - spring-boot-2.6
+    metadata:
+      type: webflux
+      service: study-spring-boot
+      component: ${spring.application.name}
+      prometheus_exporter_path: /management/prometheus
+    instance-id: ${spring.application.name}:${random.value}
+    service-name: spring-webflux
+    port: ${management.server.port}
+    health-check-path: /management/health
