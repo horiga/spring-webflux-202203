@@ -1,3 +1,4 @@
+
 spring.application.name: spring-webflux
 
 server.port: 8080
@@ -33,3 +34,23 @@ spring.cloud.consul:
     service-name: spring-webflux
     port: ${management.server.port}
     health-check-path: /management/health
+
+# R2DBC(MySQL)
+spring.r2dbc:
+    url: r2dbc:mysql://localhost:3306/test?characterEncoding=UTF-8&useSSL=false
+    username: test_user
+    password: test_user
+    pool:
+      enabled: true
+      initial-size: 5
+      max-size: 30
+      max-idle-time: 10m
+      validation-query: select 1
+
+spring.cache.caffeine.spec: expireAfterwrite=30s
+
+logging.level.reactor.netty: INFO
+logging.level.org.apache.http: INFO
+logging.level.org.springframework.cache: TRACE
+logging.level.root: DEBUG
+

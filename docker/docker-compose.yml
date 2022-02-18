@@ -37,7 +37,7 @@ services:
     stdin_open: true
 
   redis-cluster:
-    image: grokzen/redis-cluster:4.0.12
+    image: grokzen/redis-cluster:5.0.12
     environment:
       IP: 0.0.0.0
       SENTINEL: 'false'
