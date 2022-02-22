@@ -30,8 +30,8 @@ spring.cloud.consul:
       service: study-spring-boot
       component: ${spring.application.name}
       prometheus_exporter_path: /management/prometheus
-    instance-id: ${spring.application.name}:${random.value}
-    service-name: spring-webflux
+    instance-id: ${random.uuid}
+    service-name: ${spring.application.name}
     port: ${management.server.port}
     health-check-path: /management/health
 
